@@ -1,10 +1,9 @@
 from termcolor import cprint
 import random
 
-def show_random_banner():
-    banners = [
-        # 🧘 Cyber Monk DNSSEC Validator
-        """
+def show_random_banner(mode=None):
+    banners = {
+        "cyber": r"""
    _____      _                __  __             _    
   / ____|    | |              |  \/  |           | |   
  | |     ___ | |__   ___ _ __ | \  / | ___  _ __ | |_  
@@ -14,8 +13,7 @@ def show_random_banner():
         🧘 Cyber Monk DNSSEC Validator
         """,
 
-        # 🔒 Cyber Monk DNSSEC Validator
-        """
+        "lock": r"""
    ____      _               __  __             _    
   / ___| ___| |_ _   _ _ __ |  \/  | ___  _ __ | |_  
  | |  _ / _ \ __| | | | '_ \| |\/| |/ _ \| '_ \| __| 
@@ -25,47 +23,42 @@ def show_random_banner():
         🔒 Cyber Monk DNSSEC Validator
         """,
 
-        # 🦅 Falcon Banner
-        """
+        "falcon": r"""
      __
-    /__\\
+    /__\
    (o_o )  🦅 Falcon Scan Mode
-   /|_|\\  DNSSEC Dive Activated
-    / \\   Trust Chain Tracker
+   /|_|\  DNSSEC Dive Activated
+    / \   Trust Chain Tracker
         """,
 
-        # 🦉 Owl Banner
-        """
+        "owl": r"""
      ___
     (o,o)  🦉 Owl Audit Mode
     { "`"}  DNSSEC Wisdom Engaged
     -"-"-  Cryptographic Insight
         """,
 
-        # 🧘 Digital Monk Glyph
-        """
+        "glyph": r"""
      ( )
-    /|_|\\   🔐
-   /_|_|_\\  Cyber Monk Glyph
-    /   \\   DNSSEC Guardian
+    /|_|\   🔐
+   /_|_|_\  Cyber Monk Glyph
+    /   \   DNSSEC Guardian
         """,
 
-        # 🔥 Zen Firewall
-        """
+        "zen": r"""
 🔥🔥🔥🔥🔥🔥🔥
 🧘 Zen Firewall Activated
 🔐 DNSSEC Validator
         """,
 
-        # 📜 DNSSEC Scroll
-        """
+        "scroll": r"""
 ╔══════════════════════╗
 ║ 🔐 DNSSEC Scroll     ║
 ║ 🧘 Cyber Monk Reads  ║
 ║ 🔍 Trust Chain Found ║
 ╚══════════════════════╝
         """
-    ]
+    }
 
-    banner = random.choice(banners)
+    banner = banners.get(mode, random.choice(list(banners.values())))
     cprint(banner, "green", attrs=["bold"])
