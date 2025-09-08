@@ -13,7 +13,6 @@ from utils import (
 def main():
     args = sys.argv[1:]
 
-    # Help and About
     if not args or "--help" in args:
         show_help()
         return
@@ -22,23 +21,19 @@ def main():
         show_about()
         return
 
-    # Simulated Secure Domain
     if "--simulate" in args:
         simulate_secure_domain()
         return
 
-    # Batch Mode with Optional Custom File Path
     if "--batch" in args:
         try:
             batch_index = args.index("--batch") + 1
             file_path = args[batch_index]
         except IndexError:
-            file_path = "domains.txt"  # default fallback
-
+            file_path = "domains.txt"
         show_batch_summary(file_path)
         return
 
-    # Single Domain Validation
     domain = args[0]
     mode = next((arg.split("=")[1] for arg in args if arg.startswith("--mode=")), None)
     show_random_banner(mode)
@@ -54,14 +49,12 @@ def main():
     print(f"Reason: {result['reason']}")
     print(f"Recommendation: {result['recommendation']}")
 
-    # Export JSON Report
     if "--export" in args:
         filename = f"{domain.replace('.', '_')}_dnssec_report.json"
         with open(filename, "w") as f:
             json.dump(result, f, indent=2)
         print(f"📦 Report saved to {filename}")
 
-    # Visualize Trust Chain
     if "--visualize" in args:
         visualize_trust_chain(domain, result)
 

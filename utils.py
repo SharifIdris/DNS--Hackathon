@@ -1,20 +1,22 @@
 def get_failure_reason(dnskey, ds, rrsig):
     if not dnskey and not ds:
-        return "NO_DNSSEC"
+        return "No DNSSEC records found (DNSKEY and DS missing)"
     if dnskey and not ds:
-        return "NO_DS_RECORD"
+        return "DNSKEY found but no DS record in parent zone"
     if ds and not dnskey:
-        return "NO_DNSKEY"
+        return "DS record exists but no DNSKEY published in child zone"
     if dnskey and ds and not rrsig:
-        return "NO_RRSIG"
-    return "UNKNOWN"
+        return "DNSKEY and DS present, but missing RRSIG signatures"
+    if dnskey and ds and rrsig:
+        return "All DNSSEC records present and valid"
+    return "Partial DNSSEC configuration"
 
 def generate_recommendation(domain, dnskey, ds):
     if not dnskey:
         return f"Enable DNSSEC and publish DNSKEY for {domain}"
     if dnskey and not ds:
-        return f"Publish DS record at parent zone (.ug) for {domain}"
-    return "DNSSEC appears correctly configured"
+        return f"Publish DS record in parent zone to complete trust chain for {domain}"
+    return f"DNSSEC appears correctly configured for {domain}"
 
 def show_help():
     print("""
@@ -26,7 +28,7 @@ Options:
   --visualize     Show trust chain graph
   --about         Show author bio
   --simulate      Run a secure demo domain
-  --batch         Validate domains from domains.txt
+  --batch [file]  Validate domains from a file (default: domains.txt)
   --mode=[theme]  Choose banner theme (cyber, owl, falcon, etc.)
   --help          Show this help message
 """)
@@ -42,18 +44,18 @@ Founder of Sharif Digital Hub | https://sharifabubakar.netlify.app
 Built in collaboration with GitHub Copilot — a creative and technical partner throughout development.
 """)
 
-def show_batch_summary(file_path):
+def show_batch_summary(file_path="domains.txt"):
     from dns_query import validate_dnssec
     print(f"\n🔁 Batch Validation from {file_path}")
     try:
         with open(file_path) as f:
             domains = [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
-        print("❌ domains.txt not found. Please create the file and list domains line by line.")
+        print(f"❌ File not found: {file_path}. Please check the path and try again.")
         return
 
     print(f"{'Domain':<25} {'Status':<10} {'Reason'}")
-    print("-" * 50)
+    print("-" * 60)
     for domain in domains:
         result = validate_dnssec(domain)
         print(f"{domain:<25} {result['status']:<10} {result['reason']}")
@@ -68,9 +70,9 @@ def simulate_secure_domain():
         "nsec_found": True,
         "status": "Secure",
         "emoji": "✅",
-        "reason": "All records present",
+        "reason": "All DNSSEC records present and valid",
         "recommendation": "No action needed",
-        "timestamp": "2025-09-07T19:50:00"
+        "timestamp": "2025-09-08T12:34:00"
     }
     print("\n🔐 Simulated Secure Domain")
     visualize_trust_chain("example.secure", result)
