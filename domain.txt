@@ -1,0 +1,10 @@
+cloudflare.com
+example.com
+ietf.org
+nic.ug
+dnssec-tool.org
+gov.ug
+com.gh
+org.ke
+co.za
+com.ng
