@@ -20,6 +20,7 @@ def generate_recommendation(domain, dnskey, ds):
 
 def show_help():
     print("""
+            Uganda DNSSEC Validator & Visualizer
 Usage:
   python cli.py [domain] [options]
 
@@ -36,7 +37,7 @@ Options:
 
 def show_about():
     print("""
-Cyber Monk DNSSEC Validator
+Uganda DNSSEC Validator & Visualizer
 Built by Angole Sharif Abubakar
 
 Certified Virtual Assistant · AI Tools Expert · Developer

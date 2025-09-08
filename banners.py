@@ -53,9 +53,8 @@ def show_random_banner(mode=None):
 
         "scroll": r"""
 ╔══════════════════════╗
-║ 🔐 DNSSEC Scroll     ║
-║ 🧘 Cyber Monk Reads  ║
-║ 🔍 Trust Chain Found ║
+║ 🇺🇬Uganda DNSSEC Tool ║
+║ 🔍Trust Chain Found  ║
 ╚══════════════════════╝
         """
     }
