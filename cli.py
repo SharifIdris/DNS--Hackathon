@@ -35,6 +35,12 @@ def main():
         return
 
     domain = args[0]
+
+    # 🔐 Restrict to .ug domains only
+    if not domain.endswith(".ug"):
+        print(f"❌ '{domain}' is not a .ug domain. This tool only supports .ug domains.")
+        return
+
     mode = next((arg.split("=")[1] for arg in args if arg.startswith("--mode=")), None)
     show_random_banner(mode)
 
