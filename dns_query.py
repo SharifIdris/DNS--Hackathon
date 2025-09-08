@@ -14,9 +14,9 @@ def validate_dnssec(domain):
     rrsig = dig(domain, "RRSIG")
     nsec = dig(domain, "NSEC")
 
-    dnskey_found = "DNSKEY" in dnskey
-    ds_found = "DS" in ds
-    rrsig_found = "RRSIG" in rrsig
+    dnskey_found = "IN DNSKEY" in dnskey and "ANSWER: 0" not in dnskey
+    ds_found = "IN DS" in ds and "ANSWER: 0" not in ds
+    rrsig_found = "IN RRSIG" in rrsig and "ANSWER: 0" not in rrsig
     nsec_found = "NSEC" in nsec or "NSEC3" in nsec
 
     if dnskey_found and ds_found and rrsig_found:
