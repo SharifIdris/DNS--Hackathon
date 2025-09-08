@@ -29,6 +29,7 @@ Options:
   --about         Show author bio
   --simulate      Run a secure demo domain
   --batch [file]  Validate domains from a file (default: domains.txt)
+  --all           Include non-.ug domains in batch mode
   --mode=[theme]  Choose banner theme (cyber, owl, falcon, etc.)
   --help          Show this help message
 """)
@@ -44,14 +45,21 @@ Founder of Sharif Digital Hub | https://sharifabubakar.netlify.app
 Built in collaboration with GitHub Copilot — a creative and technical partner throughout development.
 """)
 
-def show_batch_summary(file_path="domains.txt"):
+def show_batch_summary(file_path="domains.txt", ug_only=True):
     from dns_query import validate_dnssec
     print(f"\n🔁 Batch Validation from {file_path}")
     try:
         with open(file_path) as f:
-            domains = [line.strip() for line in f if line.strip()]
+            if ug_only:
+                domains = [line.strip() for line in f if line.strip().endswith(".ug")]
+            else:
+                domains = [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
         print(f"❌ File not found: {file_path}. Please check the path and try again.")
+        return
+
+    if not domains:
+        print("⚠️ No valid domains found in the file.")
         return
 
     print(f"{'Domain':<25} {'Status':<10} {'Reason'}")
